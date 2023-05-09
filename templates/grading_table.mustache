@@ -1,0 +1,54 @@
+{{!
+    This file is part of Moodle - http://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+}}
+{{!
+    @template mod_bigbluebuttonbn/recording_table
+
+    This template renders the mobile page.
+
+    Example context (json):
+    {
+        "bbbid" : 3,
+        "has_records": true,
+        "search_input": {}
+    }
+}}
+<div class="mod_bigbluebuttonbn_recordings_table">
+    {{#has_users}}
+        <div>
+            <h4>{{$title}}{{/title}}</h4>
+        </div>
+        <div>
+            <div {{!}} id="bigbluebuttonbn-grading-table-{{uniqid}}"
+            {{!}} data-bbbid="{{bbbid}}"
+            {{!}} data-tools="{{$tools}}protect,unprotect,publish,unpublish,delete{{/tools}}"
+            {{!}} data-group-id="{{groupid}}"
+            {{!}}></div>
+        </div>
+    {{/has_users}}
+    {{^has_users}}
+        <div id="bigbluebuttonbn_recordings_table">{{#str}}view_message_nousers, mod_bigbluebuttonbn{{/str}}</div>
+    {{/has_users}}
+</div>
+
+{{#sessions}}
+    {{#js}}
+         require(['mod_bigbluebuttonbn/grading'], function(grading) {
+            grading.init('#bigbluebuttonbn-grading-table-{{uniqid}}');
+        });
+        require(['core/inplace_editable']);
+    {{/js}}
+{{/sessions}}
